@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kakinada Fresh Bites</title>
+    <title>Goodness in a Box </title>
     <!-- Tailwind CSS CDN for a clean, mobile-first design -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -28,8 +28,8 @@
     <!-- Header & Hero Section -->
     <header class="bg-gradient-to-r from-green-500 to-green-600 text-white py-16 px-6 sm:px-12 rounded-b-3xl">
         <div class="container mx-auto text-center">
-            <h1 class="text-4xl sm:text-5xl font-extrabold mb-4 drop-shadow-lg">Kakinada Fresh Bites</h1>
-            <p class="text-lg sm:text-xl font-light mb-8">Delivering fresh fruit boxes & delicious lunch meals right to your doorstep in Kakinada.</p>
+            <h1 class="text-4xl sm:text-5xl font-extrabold mb-4 drop-shadow-lg">Goodness in a Box</h1>
+            <p class="text-lg sm:text-xl font-light mb-8">Delivering fresh fruit boxes & home‑style delicious lunch meals right to your doorstep in Kakinada.</p>
             <a href="#menu" class="bg-white text-green-600 font-bold py-3 px-8 rounded-full shadow-lg hover:bg-green-100 transition duration-300 transform hover:scale-105">
                 Explore Our Menu
             </a>
@@ -63,7 +63,7 @@
         <!-- Menu Section -->
         <section id="menu" class="mb-16">
             <h2 class="text-3xl font-bold text-center mb-8">Our Fresh & Delicious Menu</h2>
-            <p class="text-center text-gray-600 mb-8">Click "Pay with UPI" and your preferred payment app will open automatically with the correct amount.</p>
+            <p class="text-center text-gray-600 mb-8">Click "Order Now" and your preferred payment app will open automatically with the correct amount and Have a Box of Joy With MB.</p>
 
             <!-- Lunch Boxes -->
             <div class="mb-12">
@@ -77,7 +77,7 @@
                         <div class="flex items-center justify-between w-full mb-4">
                             <span class="text-2xl font-bold text-green-600">₹99</span>
                             <button class="pay-btn bg-green-500 text-white font-semibold py-2 px-6 rounded-full shadow-md hover:bg-green-600 transition duration-300" 
-                                data-product-name="Classic Thali" data-amount="99">Pay with UPI</button>
+                                data-product-name="Classic Thali" data-amount="99">Order Now</button>
                         </div>
                     </div>
                     <!-- Lunch Box 2 -->
@@ -151,7 +151,7 @@
             <h2 class="text-3xl sm:text-4xl font-extrabold mb-4 drop-shadow-md">Ready to Taste the Freshness?</h2>
             <p class="text-lg sm:text-xl font-light mb-6">Order your fruit or lunch box today and get it delivered in Kakinada!</p>
             <a href="#menu" class="bg-white text-green-600 font-bold py-3 px-8 rounded-full shadow-lg hover:bg-green-100 transition duration-300 transform hover:scale-105">
-                Place Your Order
+                Place Your Order With MB
             </a>
         </section>
     </main>
@@ -184,9 +184,9 @@
             const modal = document.getElementById('redirect-modal');
 
             // Replace with your actual UPI ID
-            const yourUpiId = "YOUR_UPI_ID@okicici"; 
+            const yourUpiId = "paytm.s1czheh@pty"; 
             // Replace with your WhatsApp number (country code + number)
-            const whatsappNumber = "91YOUR_WHATSAPP_NUMBER"; 
+            const whatsappNumber = "918897349919"; 
 
             let selectedOrder = null;
 
@@ -216,7 +216,7 @@
                 if (selectedOrder) {
                     const { productName, amount, orderId } = selectedOrder;
                     const message = `Hello! I have placed a new order.%0A%0A*Order ID:* ${orderId}%0A*Product:* ${productName}%0A*Amount:* ₹${amount}%0A%0A*My Details:*%0A- Name: %0A- Address: %0A- Landmark: %0A%0A*Please find the payment screenshot attached.*`;
-                    const whatsappLink = `https://wa.me/${whatsappNumber}?text=${message}`;
+                    const whatsappLink = `https://wa.me/${918897349919}?text=${message}`;
                     
                     window.location.href = whatsappLink;
                     modal.classList.remove('open');
@@ -233,3 +233,4 @@
     </script>
 </body>
 </html>
+
