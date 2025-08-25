@@ -162,12 +162,12 @@
                 
                 <div class="flex flex-col md:flex-row items-center justify-center space-y-6 md:space-y-0 md:space-x-12 w-full max-w-2xl">
                     <div class="flex flex-col items-center">
-                        <h4 class="text-lg font-medium text-green-900 mb-2">Scan & Pay (PC)</h4>
+                        <h4 class="text-lg font-medium text-green-900 mb-2">Scan & Pay </h4>
                         <div id="qrcode-container" class="border-4 border-green-500 rounded-lg p-2 shadow-md"></div>
                         <p class="text-sm text-gray-500 mt-2">Use any UPI app to scan.</p>
                     </div>
                     <div class="flex flex-col items-center md:space-y-4">
-                        <h4 class="text-lg font-medium text-green-900 mb-2 md:mb-0">Or Pay with UPI (Mobile)</h4>
+                        <h4 class="text-lg font-medium text-green-900 mb-2 md:mb-0">Or Pay with UPI </h4>
                         <button id="pay-now-btn" class="bg-green-500 text-white font-bold py-3 px-8 rounded-full shadow-lg hover:bg-green-600 transition duration-300 transform hover:scale-105">
                             Pay Now
                         </button>
@@ -205,12 +205,12 @@
         </div>
     </div>
 
-
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
     <!-- JavaScript for button functionality -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const orderButtons = document.querySelectorAll('.order-btn');
-            const menuSection = document.getElementById('menu-section');
+            const menuSection = document.getElementById('menu');
             const checkoutSection = document.getElementById('checkout-section');
             const backToMenuBtn = document.getElementById('back-to-menu-btn');
             const checkoutTitle = document.getElementById('checkout-title');
@@ -290,4 +290,5 @@
     </script>
 </body>
 </html>
+
 
