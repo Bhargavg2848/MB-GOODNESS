@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Goodness in a Box</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Base styles */
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6; /* Light mode background */
+            color: #1f2937; /* Light mode text */
+            overflow-x: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .image-container {
+            width: 100%;
+            height: 250px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #ffffff;
+            transition: background-color 0.3s ease;
+        }
+        .image-container img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        .page-content {
+            display: none;
+        }
+        .page-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .modal {
+            transition: opacity 0.3s ease-in-out, visibility 0.3s;
+            visibility: hidden;
+            opacity: 0;
+        }
+        .modal.open {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Dark Mode Styles */
+        .dark body {
+            background-color: #111827; /* Dark BG */
+            color: #d1d5db; /* Dark text */
+        }
+        .dark .bg-white {
+            background-color: #1f2937; /* Dark card BG */
+        }
+        .dark .bg-gray-800 {
+            background-color: #000;
+        }
+        .dark .text-gray-800, .dark .text-gray-700, .dark .text-gray-600 {
+            color: #d1d5db; /* Dark mode text */
+        }
+        .dark .text-green-700, .dark .text-green-900 {
+            color: #34d399; /* Brighter green for dark mode */
+        }
+        .dark .shadow-md {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+        }
+        .dark .image-container {
+            background-color: #374151;
+        }
+        .dark .header-gradient {
+            background-image: linear-gradient(to right, #1f2937, #111827);
+        }
+        .dark #qrcode-container {
+            background-color: white; /* Keep QR code background white for scannability */
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Navigation Bar -->
+    <nav class="bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg shadow-md sticky top-0 z-40 transition-colors duration-300">
+        <div class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <a href="#" id="nav-logo" class="text-xl font-bold text-green-600 dark:text-green-400">Goodness in a Box</a>
+            <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-green-500">
+                <!-- Sun Icon -->
+                <svg id="theme-icon-sun" class="h-6 w-6 text-gray-800 dark:text-gray-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+                <!-- Moon Icon (hidden by default) -->
+                <svg id="theme-icon-moon" class="h-6 w-6 text-gray-800 dark:text-gray-200 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                </svg>
+            </button>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <header id="home-page" class="bg-gradient-to-r from-green-500 to-green-600 text-white py-16 px-6 sm:px-12 rounded-b-3xl page-content active header-gradient">
+        <div class="container mx-auto text-center">
+            <h1 class="text-4xl sm:text-5xl font-extrabold mb-4 drop-shadow-lg">Goodness in a Box</h1>
+            <p class="text-lg sm:text-xl font-light mb-8">Delivering fresh fruit boxes & home‑style delicious lunch meals right to your doorstep in Kakinada.</p>
+        </div>
+        
+        <div class="container mx-auto px-6 py-12">
+            <h2 class="text-3xl font-bold text-center mb-8 text-white">Our Categories</h2>
+            <div class="flex flex-col sm:flex-row justify-center items-center gap-8 text-center">
+                <!-- LunchMate Card -->
+                <div class="bg-white rounded-2xl shadow-lg transform transition duration-300 hover:scale-105 hover:-translate-y-2 cursor-pointer w-full sm:w-1/2 md:w-1/3" data-target="lunchmate-page">
+                    <div class="image-container rounded-t-2xl">
+                        <img src="https://image2url.com/images/1756770808828-db67e040-f2f5-4aee-8184-9713d26bcfa9.jpg" alt="LunchMate Category" class="rounded-t-2xl">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-green-700 mb-2">LunchMate</h3>
+                        <p class="text-gray-600">Delicious home-style lunch boxes.</p>
+                    </div>
+                </div>
+
+                <!-- FruitLoop Card -->
+                <div class="bg-white rounded-2xl shadow-lg transform transition duration-300 hover:scale-105 hover:-translate-y-2 cursor-pointer w-full sm:w-1/2 md:w-1/3" data-target="fruitloop-page">
+                    <div class="image-container rounded-t-2xl">
+                        <img src="https://image2url.com/images/1756772616472-b10742c0-cf8c-4d07-ae97-ceaaa9e4767b.jpg" alt="FruitLoop Category" class="rounded-t-2xl">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-green-700 mb-2">FruitLoop</h3>
+                        <p class="text-gray-600">Fresh and healthy fruit boxes.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-12">
+        <!-- How It Works Section -->
+        <section class="mb-16">
+            <h2 class="text-3xl font-bold text-center mb-10">How It Works</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                <div class="flex flex-col items-center p-6 bg-white rounded-xl shadow-md transform transition duration-300 hover:-translate-y-2">
+                    <div class="w-16 h-16 bg-green-500 text-white rounded-full flex items-center justify-center text-2xl font-bold mb-4 shadow-inner">1</div>
+                    <h3 class="text-xl font-semibold mb-2">Choose Your Box</h3>
+                    <p class="text-gray-600">Browse our menu and select your favorite fruit or lunch box.</p>
+                </div>
+                <div class="flex flex-col items-center p-6 bg-white rounded-xl shadow-md transform transition duration-300 hover:-translate-y-2">
+                    <div class="w-16 h-16 bg-green-500 text-white rounded-full flex items-center justify-center text-2xl font-bold mb-4 shadow-inner">2</div>
+                    <h3 class="text-xl font-semibold mb-2">Pay via UPI</h3>
+                    <p class="text-gray-600">Click a button, pay securely with any UPI app on your phone.</p>
+                </div>
+                <div class="flex flex-col items-center p-6 bg-white rounded-xl shadow-md transform transition duration-300 hover:-translate-y-2">
+                    <div class="w-16 h-16 bg-green-500 text-white rounded-full flex items-center justify-center text-2xl font-bold mb-4 shadow-inner">3</div>
+                    <h3 class="text-xl font-semibold mb-2">Confirm on WhatsApp</h3>
+                    <p class="text-gray-600">After payment, a message opens on WhatsApp to confirm your order.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Why Choose Us Section -->
+        <section class="mb-16">
+            <h2 class="text-3xl font-bold text-center mb-10">Why Choose Us?</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+                <div class="flex flex-col items-center p-6 bg-white rounded-xl shadow-md">
+                    <svg class="w-12 h-12 text-green-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    <h3 class="text-xl font-semibold mb-2">Delivered Fast</h3>
+                    <p class="text-gray-600">Your order is delivered right to your doorstep in Kakinada, fast and fresh.</p>
+                </div>
+                <div class="flex flex-col items-center p-6 bg-white rounded-xl shadow-md">
+                    <svg class="w-12 h-12 text-green-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M4 17v4m-2-2h4m11-4.5a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z" opacity=".4"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 21a9 9 0 000-18h.5a9 9 0 010 18h-.5z"></path></svg>
+                    <h3 class="text-xl font-semibold mb-2">Always Fresh</h3>
+                    <p class="text-gray-600">We use only the freshest, locally sourced ingredients for every box.</p>
+                </div>
+                <div class="flex flex-col items-center p-6 bg-white rounded-xl shadow-md">
+                    <svg class="w-12 h-12 text-green-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                    <h3 class="text-xl font-semibold mb-2">Easy Ordering</h3>
+                    <p class="text-gray-600">Our simple process makes it easy to get your favorite meals with just a few clicks.</p>
+                </div>
+                <div class="flex flex-col items-center p-6 bg-white rounded-xl shadow-md">
+                     <svg class="w-12 h-12 text-green-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                    <h3 class="text-xl font-semibold mb-2">Home-Style Taste</h3>
+                    <p class="text-gray-600">Enjoy the delicious taste of home-cooked meals, made with love and care.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- LunchMate Page -->
+    <section id="lunchmate-page" class="page-content container mx-auto px-6 py-12">
+        <button class="back-btn mb-8 text-green-600 font-semibold flex items-center hover:text-green-800 transition duration-300 dark:text-green-400 dark:hover:text-green-300" data-target="home-page">
+            <svg class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
+            Back to Home
+        </button>
+        <h2 class="text-3xl font-bold text-center mb-10">🍛 LunchMate Menu</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Lunch Box 1 -->
+            <div class="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center text-center transform transition duration-300 hover:-translate-y-2">
+                <img src="https://image2url.com/images/1756770808828-db67e040-f2f5-4aee-8184-9713d26bcfa9.jpg" alt="Classic Thali" class="product-image w-full h-auto object-contain rounded-xl mb-4">
+                <h4 class="product-name text-xl font-bold mb-2">Classic Thali</h4>
+                <p class="text-gray-600 mb-4 flex-grow">A perfect blend of rice, dal, sabzi, roti, and a side of salad.</p>
+                <div class="w-full mt-auto">
+                    <span class="product-price text-2xl font-bold text-green-600 dark:text-green-400">₹1</span>
+                    <button class="order-btn w-full mt-4 bg-green-500 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:bg-green-600 transition duration-300" data-product-name="Classic Thali" data-amount="1" data-image-url="https://image2url.com/images/1756770808828-db67e040-f2f5-4aee-8184-9713d26bcfa9.jpg">Order Now</button>
+                </div>
+            </div>
+            <!-- More Lunch Boxes... -->
+        </div>
+    </section>
+
+    <!-- FruitLoop Page -->
+    <section id="fruitloop-page" class="page-content container mx-auto px-6 py-12">
+        <button class="back-btn mb-8 text-green-600 font-semibold flex items-center hover:text-green-800 transition duration-300 dark:text-green-400 dark:hover:text-green-300" data-target="home-page">
+            <svg class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
+            Back to Home
+        </button>
+        <h2 class="text-3xl font-bold text-center mb-10">🍓 FruitLoop Menu</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Fruit Box 1 -->
+            <div class="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center text-center transform transition duration-300 hover:-translate-y-2">
+                <img src="https://image2url.com/images/1756772616472-b10742c0-cf8c-4d07-ae97-ceaaa9e4767b.jpg" alt="Tropical Mix" class="product-image w-full h-auto object-contain rounded-xl mb-4">
+                <h4 class="product-name text-xl font-bold mb-2">Tropical Mix</h4>
+                <p class="text-gray-600 mb-4 flex-grow">A refreshing mix of mango, pineapple, and papaya, perfect for a hot day.</p>
+                <div class="w-full mt-auto">
+                    <span class="product-price text-2xl font-bold text-green-600 dark:text-green-400">₹199</span>
+                    <button class="order-btn w-full mt-4 bg-green-500 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:bg-green-600 transition duration-300" data-product-name="Tropical Mix" data-amount="199" data-image-url="https://image2url.com/images/1756772616472-b10742c0-cf8c-4d07-ae97-ceaaa9e4767b.jpg">Order Now</button>
+                </div>
+            </div>
+            <!-- More Fruit Boxes... -->
+        </div>
+    </section>
+    
+    <!-- Dynamic Checkout Page (hidden by default) -->
+    <section id="checkout-section" class="page-content">
+        <div class="container mx-auto px-6 py-12">
+            <button class="back-btn-checkout mb-8 text-green-600 font-semibold flex items-center hover:text-green-800 transition duration-300 dark:text-green-400 dark:hover:text-green-300" data-target="home-page">
+                <svg class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
+                Back to Menu
+            </button>
+            <div class="bg-white rounded-2xl shadow-lg p-8 md:p-12 text-center flex flex-col items-center">
+                <h2 class="text-3xl font-bold text-green-700 mb-4" id="checkout-title">Your Order</h2>
+                <img id="checkout-image" src="" alt="Product Image" class="w-4/5 md:w-1/2 rounded-xl shadow-md mb-6">
+                <h3 class="text-2xl font-semibold mb-2" id="checkout-product-name"></h3>
+                <p class="text-3xl font-bold text-green-600 dark:text-green-400 mb-8" id="checkout-amount"></p>
+                
+                <div class="flex flex-col md:flex-row items-center justify-center space-y-6 md:space-y-0 md:space-x-12 w-full max-w-2xl">
+                    <div class="flex flex-col items-center">
+                        <h4 class="text-lg font-medium text-green-900 mb-2">Scan & Pay </h4>
+                        <div id="qrcode-container" class="border-4 border-green-500 rounded-lg p-2 shadow-md"></div>
+                        <p class="text-sm text-gray-500 mt-2">Use any UPI app to scan.</p>
+                    </div>
+                    <div class="flex flex-col items-center md:space-y-4">
+                        <h4 class="text-lg font-medium text-green-900 mb-2 md:mb-0">Or Pay with UPI </h4>
+                        <button id="pay-now-btn" class="bg-green-500 text-white font-bold py-3 px-8 rounded-full shadow-lg hover:bg-green-600 transition duration-300 transform hover:scale-105">
+                            Pay Now
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action Footer -->
+    <footer class="bg-gradient-to-r from-green-500 to-green-600 text-white p-12 rounded-t-3xl text-center shadow-lg mt-12 header-gradient">
+        <h2 class="text-3xl sm:text-4xl font-extrabold mb-4 drop-shadow-md">Ready to Taste the Freshness?</h2>
+        <p class="text-lg sm:text-xl font-light mb-6">Order your fruit or lunch box today and get it delivered in Kakinada!</p>
+    </footer>
+
+    <!-- Main Footer -->
+    <footer class="bg-gray-800 text-white py-8 text-center">
+        <div class="container mx-auto">
+            <p>&copy; 2025 Goodness in a Box MB. All rights reserved.</p>
+            <p class="text-sm mt-2">Made with <span class="text-red-500">&hearts;</span> in Kakinada.</p>
+        </div>
+    </footer>
+    
+    <!-- Back to Top Button -->
+    <button id="to-top-button" title="Go To Top"
+        class="hidden fixed z-50 bottom-8 right-8 border-0 w-12 h-12 rounded-full drop-shadow-md bg-green-500 text-white text-3xl font-bold flex justify-center items-center transition-all duration-300 hover:bg-green-600 hover:drop-shadow-lg">
+        &uarr;
+    </button>
+
+    <!-- Modal for redirection -->
+    <div id="redirect-modal" class="modal fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-75 z-50">
+        <div class="bg-white rounded-xl shadow-lg p-8 m-4 max-w-sm text-center transform scale-90 transition-transform duration-300" id="modal-content">
+            <h3 class="text-2xl font-bold mb-4 text-gray-800">Payment Initiated!</h3>
+            <p class="text-gray-600 mb-6">Please complete the payment on your UPI app. After payment, click below to confirm your order on WhatsApp.</p>
+            <button id="whatsapp-redirect-btn" class="w-full bg-green-500 text-white font-bold py-3 px-6 rounded-full shadow-lg hover:bg-green-600 transition duration-300 transform hover:scale-105">
+                Confirm on WhatsApp
+            </button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Theme Toggle ---
+            const themeToggle = document.getElementById('theme-toggle');
+            const sunIcon = document.getElementById('theme-icon-sun');
+            const moonIcon = document.getElementById('theme-icon-moon');
+            const htmlEl = document.documentElement;
+
+            // Function to set theme
+            const setTheme = (theme) => {
+                if (theme === 'dark') {
+                    htmlEl.classList.add('dark');
+                    sunIcon.classList.add('hidden');
+                    moonIcon.classList.remove('hidden');
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    htmlEl.classList.remove('dark');
+                    sunIcon.classList.remove('hidden');
+                    moonIcon.classList.add('hidden');
+                    localStorage.setItem('theme', 'light');
+                }
+            };
+
+            // Check for saved theme or system preference
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (savedTheme) {
+                setTheme(savedTheme);
+            } else if (prefersDark) {
+                setTheme('dark');
+            } else {
+                setTheme('light');
+            }
+
+            // Theme toggle event listener
+            themeToggle.addEventListener('click', () => {
+                if (htmlEl.classList.contains('dark')) {
+                    setTheme('light');
+                } else {
+                    setTheme('dark');
+                }
+            });
+
+            // --- Back to Top Button ---
+            const toTopButton = document.getElementById('to-top-button');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 200) {
+                    toTopButton.classList.remove('hidden');
+                } else {
+                    toTopButton.classList.add('hidden');
+                }
+            });
+            toTopButton.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+
+
+            // --- Core App Logic ---
+            const orderButtons = document.querySelectorAll('.order-btn');
+            const categoryButtons = document.querySelectorAll('[data-target]');
+            const backButtons = document.querySelectorAll('.back-btn');
+            const backBtnCheckout = document.querySelector('.back-btn-checkout');
+            const navLogo = document.getElementById('nav-logo');
+            const modal = document.getElementById('redirect-modal');
+            const modalContent = document.getElementById('modal-content');
+            
+            const pages = {
+                home: document.getElementById('home-page'),
+                mainContent: document.querySelector('main'),
+                lunchmate: document.getElementById('lunchmate-page'),
+                fruitloop: document.getElementById('fruitloop-page'),
+                checkout: document.getElementById('checkout-section'),
+            };
+
+            const checkoutElements = {
+                title: document.getElementById('checkout-title'),
+                image: document.getElementById('checkout-image'),
+                productName: document.getElementById('checkout-product-name'),
+                amount: document.getElementById('checkout-amount'),
+                payNowBtn: document.getElementById('pay-now-btn'),
+                qrcodeContainer: document.getElementById('qrcode-container'),
+                whatsappRedirectBtn: document.getElementById('whatsapp-redirect-btn'),
+            };
+
+            const yourUpiId = "paytm.s1czheh@pty";
+            const whatsappNumber = "918897349919";
+            let lastActivePage = 'home-page';
+
+            function showPage(pageId) {
+                Object.values(pages).forEach(page => page.classList.remove('active'));
+                
+                if (pageId === 'home-page') {
+                    pages.home.classList.add('active');
+                    pages.mainContent.style.display = 'block';
+                } else {
+                    pages.home.classList.remove('active');
+                    pages.mainContent.style.display = 'none';
+                    if (pages[pageId.split('-')[0]]) {
+                         pages[pageId.split('-')[0]].classList.add('active');
+                    }
+                }
+                window.scrollTo(0, 0);
+            }
+            
+            // Initial load
+            pages.home.classList.add('active');
+            pages.mainContent.style.display = 'block';
+
+            navLogo.addEventListener('click', (e) => {
+                e.preventDefault();
+                showPage('home-page');
+            });
+            
+            categoryButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    lastActivePage = button.dataset.target;
+                    showPage(button.dataset.target);
+                });
+            });
+
+            backButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    showPage(button.dataset.target);
+                });
+            });
+
+            backBtnCheckout.addEventListener('click', () => {
+                showPage(lastActivePage);
+            });
+
+            orderButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const productName = button.dataset.productName;
+                    const amount = button.dataset.amount;
+                    const imageUrl = button.dataset.imageUrl;
+
+                    checkoutElements.title.textContent = "Complete Your Order";
+                    checkoutElements.image.src = imageUrl;
+                    checkoutElements.productName.textContent = productName;
+                    checkoutElements.amount.textContent = `₹${amount}`;
+
+                    showPage('checkout-section');
+
+                    const orderId = 'KF-' + Date.now();
+                    const upiLink = `upi://pay?pa=${yourUpiId}&pn=Goodness%20In%20A%20Box&mc=5411&tid=${orderId}&am=${amount}.00&cu=INR&tn=Order%20for%20${encodeURIComponent(productName)}`;
+                    
+                    checkoutElements.qrcodeContainer.innerHTML = '';
+                    new QRCode(checkoutElements.qrcodeContainer, {
+                        text: upiLink,
+                        width: 180,
+                        height: 180,
+                        colorDark: "#000000",
+                        colorLight: "#ffffff",
+                        correctLevel: QRCode.CorrectLevel.H
+                    });
+
+                    checkoutElements.payNowBtn.onclick = () => {
+                        window.location.href = upiLink;
+                        setTimeout(() => {
+                            modal.classList.add('open');
+                            modalContent.classList.remove('scale-90');
+                        }, 2000);
+                    };
+                    
+                    checkoutElements.whatsappRedirectBtn.onclick = () => {
+                         const message = `Hello! I have placed a new order.%0A%0A*Order ID:* ${orderId}%0A*Product:* ${productName}%0A*Amount:* ₹${amount}%0A%0A*My Details:*%0A- Name: %0A- Address: %0A- Landmark: %0A%0A*Please find the payment screenshot attached.*`;
+                         const whatsappLink = `https://wa.me/${whatsappNumber}?text=${message}`;
+                         window.location.href = whatsappLink;
+                         modal.classList.remove('open');
+                         modalContent.classList.add('scale-90');
+                    };
+                });
+            });
+        });
+    </script>
+</body>
+</html>
